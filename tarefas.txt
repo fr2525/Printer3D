@@ -1,0 +1,47 @@
+Criar:
+
+Menu - ok
+Clientes: 
+    Lista_clientes-ok
+    cria-ok  
+    atualiza-ok
+    delete=ok
+
+Filamentos:
+    Lista_filamentos-ok
+    cria-ok
+    atualiza=ok
+    delete-ok
+
+Usuarios
+    Lista-ok
+    cria-OK
+    atualiza-ok
+    delete-OK
+
+Fornecedores
+    Lista_fornecedores-Ok
+    cria-Ok
+    atualiza-Ok
+    delete-Ok
+
+Impressoras
+    Lista_impressoras-OK
+    cria-OK
+    atualiza-OK
+    delete-OK
+
+Pedidos
+    Lista_pedidos
+    cria
+    atualiza
+    delete
+
+Niveis de operação
+    Lista
+    cria
+    atualiza
+    delete
+
+Login
+

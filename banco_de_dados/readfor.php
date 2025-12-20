@@ -1,0 +1,116 @@
+<?php
+include_once 'conexao.php';
+
+//A quantidade de valor a ser exibida
+$quantidade = 5;
+//a pagina atual
+$pagina     = (isset($_GET['pagina'])) ? (int)$_GET['pagina'] : 1;
+//Calcula a pagina de qual valor será exibido
+$inicio     = ($quantidade * $pagina) - $quantidade;
+//Monta o SQL com LIMIT para exibição dos dados  
+$strsql ="select id, cpf_cnpj, nome, endereco, email, celular from tb_fornecedores ORDER BY nome LIMIT $inicio, $quantidade";
+//Executa o SQL
+$querySelect = $link->query($strsql);
+
+while ($registros = $querySelect->fetch_assoc()):
+
+    $id = $registros['id'];
+    $cpf_cnpj = $registros['cpf_cnpj'];
+    $nome = $registros['nome'];
+    $endereco = $registros['endereco'];
+    $email = $registros['email'];
+    $celular = $registros['celular'];
+
+    echo "<tr>";
+    echo "<td>$cpf_cnpj</td>";
+    echo "<td>$nome</td>";
+    echo "<td>$endereco</td>";
+    echo "<td>$email</td>";
+    echo "<td>$celular</td>";
+
+    echo "<td><a href='editarFor.php?id=$id'><i class='material-icons'>edit</i></td>";
+    //echo "<td><a href='banco_de_dados/deleteCli.php?id=$id'><i class='material-icons'>delete</i></td>";
+
+    echo "<td><a href='banco_de_dados/deletefor.php?id=";
+    echo $id . "&tabela=tb_fornecedores&retorno=lista_fornece.php' ";
+    echo ' OnClick=" javascript:return confirm(\'Deseja mesmo excluir o fornecedor:\n ' . $nome . ' ?\');">';
+    echo "<i class='material-icons'>delete</i>";
+
+    // echo " Excluir </a>";
+
+    echo "</td>
+</tr>";
+
+    echo "</tr>";
+endwhile;
+
+/**
+   * SEGUNDA PARTE DA PAGINAÇÃO
+   */
+  //SQL para saber o total
+  $sqlTotal   = "SELECT id FROM tb_fornecedores";
+  //Executa o SQL
+  $qrTotal = $link->query($sqlTotal);
+ // $qrTotal    = mysql_query($sqlTotal) or die(mysql_error());
+ //Total de Registro na tabela
+ // $numTotal   = mysql_num_rows($qrTotal);
+   $numTotal = $qrTotal->num_rows;
+  //O calculo do Total de página ser exibido
+  $totalPagina= ceil($numTotal/$quantidade);
+   /**
+    * Defini o valor máximo a ser exibida na página tanto para direita quando para esquerda
+    */
+   $exibir = 3;
+   /**
+    * Aqui montará o link que voltará uma pagina
+    * Caso o valor seja zero, por padrão ficará o valor 1
+    */
+   $anterior  = (($pagina - 1) == 0) ? 1 : $pagina - 1;
+   /**
+    * Aqui montará o link que ir para proxima pagina
+    * Caso pagina +1 for maior ou igual ao total, ele terá o valor do total
+    * caso contrario, ele pegar o valor da página + 1
+    */
+   $posterior = (($pagina+1) >= $totalPagina) ? $totalPagina : $pagina+1;
+   /**
+    * Agora monta o Link paar Primeira Página
+    * Depois O link para voltar uma página
+    */
+  /**
+    * Agora monta o Link para Próxima Página
+    * Depois O link para Última Página
+    */
+    ?>
+    <div id="navegacao">
+        <?php
+        echo '<a href="?pagina=1">primeira</a> | ';
+        echo "<a href=\"?pagina=$anterior\">anterior</a> | ";
+    ?>
+        <?php
+         /**
+    * O loop para exibir os valores à esquerda
+    */
+   for($i = $pagina-$exibir; $i <= $pagina-1; $i++){
+       if($i > 0)
+        echo '<a href="?pagina='.$i.'"> '.$i.' </a>';
+  }
+
+  echo '<a href="?pagina='.$pagina.'"><strong>'.$pagina.'</strong></a>';
+
+  for($i = $pagina+1; $i < $pagina+$exibir; $i++){
+       if($i <= $totalPagina)
+        echo '<a href="?pagina='.$i.'"> '.$i.' </a>';
+  }
+
+   /**
+    * Depois o link da página atual
+    */
+   /**
+    * O loop para exibir os valores à direita
+    */
+
+    ?>
+    <?php echo " | <a href=\"?pagina=$posterior\">próxima</a> | ";
+    echo "  <a href=\"?pagina=$totalPagina\">última</a>";
+    echo "<hr>";
+    ?>

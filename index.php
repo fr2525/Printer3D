@@ -1,0 +1,1 @@
+<?php $destino = header("Location:public/index.php");
