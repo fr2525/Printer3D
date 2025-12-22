@@ -7,21 +7,6 @@ $sql = " SELECT id_venda,a.id_cliente, b.nome, id_usuario,a.descricao,quantidade
         where a.id_cliente = b.id 
         and a.status = c.id_status";
 
-/* SELECT id_venda
-        ,id_cliente
-        ,id_usuario
-        ,descricao
-        ,quantidade
-        ,preco
-        ,total_venda
-        ,status
-        ,data_Compra
-        ,data_prevista
-        ,data_Finaliza
-        ,data_entrega 
-    FROM `tb_pedidos`
- */
-
 $querySelect = $link->query($sql);
 
 while ($registros = $querySelect->fetch_assoc()):

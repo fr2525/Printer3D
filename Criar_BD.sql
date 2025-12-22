@@ -9,7 +9,7 @@ CREATE TABLE if not exists tb_clientes (
   nome    varchar(50) NOT NULL,
   email   varchar(60) NOT NULL UNIQUE,
   celular varchar(15) NOT NULL, 
-  usuario int ,
+  operador int ,
   datatual date
 ) default character set utf8 default collate utf8_general_ci;
 
@@ -23,14 +23,14 @@ CREATE TABLE if not exists tb_usuarios (
   nivel   tinyint NOT NULL, 	  
   salario decimal(12,2) ,
   comissao decimal(5,2),
-  usuario int ,
+  operador int ,
   datatual date
  ) default character set utf8 default collate utf8_general_ci;
 
 CREATE TABLE if not exists tb_niveis (
   id      int NOT NULL AUTO_INCREMENT PRIMARY KEY,
   descricao  VARCHAR(20) NOT NULL,
-  usuario int ,
+  operador int ,
   datatual date
  ) default character set utf8 default collate utf8_general_ci;
 
@@ -41,7 +41,7 @@ CREATE TABLE if not exists tb_lojas (
   nome     VARCHAR(50) NOT NULL,
   endereco VARCHAR(100),
   CNPJ     VARCHAR(15),     
-  usuario int ,
+  operador int ,
   datatual date
 
  ) default character set utf8 default collate utf8_general_ci;
@@ -58,7 +58,7 @@ CREATE TABLE if not exists   tb_filamentos  (
    cor  varchar(100) DEFAULT NULL,
    valor  decimal(10,0) NOT NULL,
    qtde_estoque  int(11) NOT NULL,
-   usuario int ,
+   operador int ,
    datatual date
 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -75,7 +75,7 @@ CREATE TABLE if not exists  tb_impressoras  (
    modelo  varchar(250) DEFAULT NULL,
    qtrolos  int(11) NOT NULL,
    ocupada  varchar(3) NOT NULL,
-  usuario int ,
+  operador int ,
   datatual date
 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -99,7 +99,7 @@ CREATE TABLE if not exists  tb_pedidos  (
    dataPrevisao  date NOT NULL,
    dataFinaliza  date NOT NULL,
    dataEntrega  date NOT NULL,
-  usuario int ,
+  operador int ,
   datatual date
 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
@@ -113,7 +113,7 @@ CREATE TABLE if not exists  tb_pedidos  (
 CREATE TABLE if not exists  tb_pedximpres  (
    id_pedido  int(11) NOT NULL,
    id_impressora  int(11) NOT NULL,
-  usuario int ,
+  operador int ,
   datatual date
 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -128,7 +128,7 @@ CREATE TABLE if not exists  tb_pedxfilamento  (
    id_pedido  int(11) NOT NULL,
 
    id_filamento  int(11) NOT NULL,
-  usuario int ,
+  operador int ,
   datatual date
 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -142,7 +142,7 @@ CREATE TABLE if not exists  tb_pedxfilamento  (
 CREATE TABLE if not exists  tb_status  (
    id_status  int(11) NOT NULL,
    descricao  varchar(10) NOT NULL,
-   usuario int ,
+   operador int ,
    datatual date
 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -160,8 +160,8 @@ INSERT INTO  tb_niveis  ( id ,  descricao ) VALUES
 --
 
 INSERT INTO  tb_status  ( id_status ,  descricao ) VALUES
-(1, 'Livre'),
-(2, 'Ocupada'),
+(1, 'A iniciar'),
+(2, 'Inciado'),
 (3, 'Finalizado'),
 (4, 'Entregue');
 

@@ -120,7 +120,7 @@ $status = "";
             ?>
             <div class="row">
                 <!-- Campo Nome -->
-                <div class="input-field col s12">
+                <div class="input-field col s4">
                     <!--   <i class="material-icons prefix"></i>  -->
                     <select name="nomecli" id="nomecli">
                         <option disabled selected>Escolha o Cliente</option>
@@ -136,11 +136,9 @@ $status = "";
                         echo '<label for="nomecli">Nome</label>';
                         ?>
                 </div>
-            </div>
 
-            <div class="row">
                 <!-- Campo Descrição do projeto -->
-                <div class="input-field col s12">
+                <div class="input-field col s8">
                     <!-- <i class="material-icons prefix"></i> -->
                     <input type="text" name="projeto" value="<?php echo $projeto ?>" id="projeto" maxlength="100" required="">
                     <label for="projeto">Descrição do projeto</label>
@@ -157,8 +155,8 @@ $status = "";
                 <!-- Campo Qtde -->
                 <div class="input-field col s2">
                     <!--    <i class="material-icons prefix"></i>   -->
-                    <input type="number" name="quantidade" 
-                        value="<?php echo number_format($quantidade, 0, ',','.'); ?>" id="quantidade" maxlength="10">
+                    <input type="number" name="quantidade"
+                        value="<?php echo number_format($quantidade, 0, ',', '.'); ?>" id="quantidade" maxlength="10">
                     <label for="quantidade">Qtde.</label>
                 </div>
                 <!-- Campo Total -->
@@ -185,8 +183,8 @@ $status = "";
 
                 <div class="input-field col s6">
                     <!--    <i class="material-icons prefix"></i>   -->
-                    <select multiple name="impres" id="impres">
-                        <option disabled selected>Escolha a Impressora disponivel</option>
+                    <select multiple name="impres" id="impres" onchange="changeFunc(this.value)">
+                        <option disabled >Escolha a Impressora disponivel</option>
                         <?php
                         $querySelect = $link->query("select id, marca from tb_impressoras where ocupada = 'N'");
                         while ($registros = $querySelect->fetch_assoc()) :
@@ -204,7 +202,7 @@ $status = "";
                 <div class="input-field col s6">
                     <!--    <i class="material-icons prefix"></i>   -->
                     <select multiple name="impres" id="impres">
-                        <option disabled >Clique para desocupar</option>
+                        <option disabled>Clique para desocupar</option>
                         <?php
                         $querySelect = $link->query("select id, marca from tb_impressoras where ocupada = 'S'");
                         while ($registros = $querySelect->fetch_assoc()) :
@@ -247,6 +245,11 @@ $status = "";
             form.reset();
             form.nome.focus();
         }
+    }
+
+    function changeFunc(valor) {
+        alert("The selected value is: " + valor);
+        // You can add more code here to perform other actions
     }
 </script>
 
