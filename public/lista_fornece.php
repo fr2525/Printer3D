@@ -4,13 +4,36 @@
 <?php include_once('../includes/menu.inc.php')
 ?>
 
+<!-- Modal -->
+<!-- Modal Trigger -->
+
+
+  <!-- Modal Structure -->
+  <div id="modal1" class="modal">
+    <div class="modal-content">
+      <h4>Modal Header</h4>
+      <p>A bunch of text</p>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+    </div>
+  </div>
 <div class="row container">
     <div class="col s12">
         <div class="col s9" style="text-align: left;">
             <h5 class="light">Lista de Fornecedores</h5>
         </div>
         <div class="col s3" style="padding: 15px 0px 0px 0px;">
-            <a href="novofor.php" class="waves-effect waves-light btn-large right">Novo</a>
+           <!-- Modal Trigger -->
+            <!--
+Source - https://stackoverflow.com/a/42086644
+Posted by Andreas Moldskred
+Retrieved 2025-12-22, License - CC BY-SA 3.0
+-->
+
+         <a class=btn btn-small blue modal-trigger" href="#modal1">Modal</a>
+
+            <!--  <a href="novofor.php" class="waves-effect waves-light btn-large right">Novo</a> -->
         </div>
 
     </div>
@@ -28,7 +51,7 @@
                     <th>Email</th>
                     <th>Celular</th>
                     <th>Ações</th>
-             
+
 
                 </tr>
             </thead>
@@ -37,8 +60,14 @@
             </tbody>
         </table>
     </div>
-
 </div>
 
 <?php include_once('../includes/footer.inc.php')
 ?>
+<script>
+
+$(document).ready(function() {
+    $('.modal').modal();
+});
+       
+</script>
