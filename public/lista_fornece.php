@@ -15,7 +15,7 @@
       <p>A bunch of text</p>
     </div>
     <div class="modal-footer">
-      <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+      <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
     </div>
   </div>
 <div class="row container">
@@ -30,8 +30,8 @@ Source - https://stackoverflow.com/a/42086644
 Posted by Andreas Moldskred
 Retrieved 2025-12-22, License - CC BY-SA 3.0
 -->
-
-         <a class=btn btn-small blue modal-trigger" href="#modal1">Modal</a>
+<!-- Modal Trigger -->
+  <button data-target="modal1" class="btn modal-trigger right">Modal</button>
 
             <!--  <a href="novofor.php" class="waves-effect waves-light btn-large right">Novo</a> -->
         </div>
@@ -65,9 +65,9 @@ Retrieved 2025-12-22, License - CC BY-SA 3.0
 <?php include_once('../includes/footer.inc.php')
 ?>
 <script>
-
-$(document).ready(function() {
-    $('.modal').modal();
-});
+  document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('.modal');
+    var instances = M.Modal.init(elems, startingTop);
+  });
        
 </script>
