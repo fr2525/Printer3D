@@ -29,8 +29,6 @@ while ($registros = $querySelect->fetch_assoc()):
     echo "<td>$celular</td>";
 
     echo "<td><a href='editarFor.php?id=$id'><i class='material-icons'>edit</i></td>";
-    //echo "<td><a href='banco_de_dados/deleteCli.php?id=$id'><i class='material-icons'>delete</i></td>";
-
     echo "<td><a href='banco_de_dados/deletefor.php?id=";
     echo $id . "&tabela=tb_fornecedores&retorno=lista_fornece.php' ";
     echo ' OnClick=" javascript:return confirm(\'Deseja mesmo excluir o fornecedor:\n ' . $nome . ' ?\');">';

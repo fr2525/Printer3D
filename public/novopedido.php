@@ -8,89 +8,6 @@ include_once '../banco_de_dados/conexao.php';
 /* SELECT id_venda,id_cliente,id_usuario,descricao,qtde,preco,total_venda,status
         ,data_Compra,data_Finaliza,data_entrega FROM `tb_pedidos`
 */
-/*
-
-id_cliente
-descricao varchar(250) 
-preco float 
-quantidade int 
-total_venda float 
-status int 
-dataCompra date 
-dataPrevisao date 
-dataFinaliza date 
-dataEntrega date 
-operador int 
-datatual
-
-if (isset($_SESSION['id_cli'])) :
-    $id_cli = $_SESSION['id_cli'];
-else :
-    $id_cli = "";
-endif;
-
-if (isset($_SESSION['nome_cli'])) :
-    $nome_cli = $_SESSION['nome_cli'];
-else :
-    $nome_cli = "";
-endif;
-
-if (isset($_SESSION['projeto'])) :
-    $projeto = $_SESSION['projeto'];
-else :
-    $projeto = "";
-endif;
-
-if (isset($_SESSION['preco'])) :
-    $preco = floatval($_SESSION['preco']);
-else :
-    $preco = floatval(0);
-endif;
-
-if (isset($_SESSION['quantidade'])) :
-    $quantidade = $_SESSION['quantidade'];
-else :
-    $quantidade = "";
-endif;
-
-if (isset($_SESSION['total_venda'])) :
-    $total_venda = floatval($_SESSION['total_venda']);
-else :
-    $total_venda = floatval(0);
-endif;
-
-if (isset($_SESSION['datacompra'])) :
-    $datacompra = $_SESSION['datacompra'];
-else :
-    $timestamp = time(); // Pega o timestamp atual
-    $datacompra = date("d/m/Y", $timestamp);
-
-endif;
-
-if (isset($_SESSION['dataprevisao'])) :
-    $dataprevisao = $_SESSION['dataprevisao'];
-else :
-    $dataprevisao = "";
-endif;
-
-if (isset($_SESSION['datafinaliza'])) :
-    $datafinaliza = $_SESSION['datafinaliza'];
-else :
-    $datafinaliza = "";
-endif;
-
-if (isset($_SESSION['dataentrega'])) :
-    $dataentrega = $_SESSION['dataentrega'];
-else :
-    $dataentrega = "";
-endif;
-
-if (isset($_SESSION['status'])) :
-    $status = $_SESSION['status'];
-else :
-    $status = "";
-endif;
-*/
 
 $id_cli = "";
 $nome_cli = "";
@@ -105,9 +22,39 @@ $datafinaliza = "";
 $dataentrega = "";
 $status = "";
 
+$impressoras = []; // Array para armazenar os dados
+$querySelect = $link->query("select id, marca from tb_impressoras where ocupada = 'N'");
+while ($registros = $querySelect->fetch_assoc()) :
+    $impressoras[] = $registros; // Adiciona a linha ao array principal
+endwhile;
+
+$ocupadas = []; // Array para armazenar os dados
+$querySelect = $link->query("select id, marca from tb_impressoras where ocupada = 'S'");
+while ($registros = $querySelect->fetch_assoc()) :
+    $ocupadas[] = $registros; // Adiciona a linha ao array principal
+endwhile;
+//$output = json_encode($impressoras);
+//echo $output;
+//exit();
 ?>
 
+<!-- Begin of Modal Structure -->
+
+<!-- O Modal em si -->
+<div id="modal1" class="modal">
+  <div class="modal-content">
+    <h4>Cabeçalho do Modal</h4>
+    <p>Este é o conteúdo da janela modal.</p>
+  </div>
+  <div class="modal-footer">
+    <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Concordar</a>
+  </div>
+</div>
+<!-- End of Modal Structure -->
+
+
 <div class="row container">
+
     <form action="../banco_de_dados/createped.php" id="formPedido" method="post" class="col s12">
         <fieldset class="formulario" style="padding: 5px">
             <!-- <legend><img src="imagens/avatar-1.png" width="50"></legend>  -->
@@ -183,41 +130,29 @@ $status = "";
 
                 <div class="input-field col s6">
                     <!--    <i class="material-icons prefix"></i>   -->
-                    <select multiple name="impres" id="impres" onchange="changeFunc(this.value)">
-                        <option disabled >Escolha a Impressora disponivel</option>
+                    <select name="selimpres" id="selimpres" data-toggle="modal1" onchange="teste(this);" data-target="#modal1">
+                        <option disabled>Escolha a Impressora disponivel</option>
                         <?php
-                        $querySelect = $link->query("select id, marca from tb_impressoras where ocupada = 'N'");
-                        while ($registros = $querySelect->fetch_assoc()) :
-                            $id_impres = $registros['id'];
-                            $marca = $registros['marca'];
-                            echo '<option value=' . $id_impres . '>' . $marca . '</option>';
-
-                        endwhile;
+                        foreach ($impressoras as $registro) {
+                            echo '<option value=' . $registro['id'] . '>' . $registro['marca'] . '</option>';
+                        }
                         echo '</select>';
-                        echo '<label for="impres">Impressoras Disponiveis</label>';
-
                         ?>
                 </div>
                 <!-- Campo Impressoras ocupadas -->
                 <div class="input-field col s6">
                     <!--    <i class="material-icons prefix"></i>   -->
-                    <select multiple name="impres" id="impres">
+                    <select multiple name="impresoc" id="impresoc">
                         <option disabled>Clique para desocupar</option>
                         <?php
-                        $querySelect = $link->query("select id, marca from tb_impressoras where ocupada = 'S'");
-                        while ($registros = $querySelect->fetch_assoc()) :
-                            $id_impres = $registros['id'];
-                            $marca = $registros['marca'];
-                            echo '<option disabled value=' . $id_impres . '>' . $marca . '</option>';
-
-                        endwhile;
+                        foreach ($ocupadas as $regocupada) {
+                            //                          echo '<option disabled value=' . $regocupada['id'] . '>' . $regocupada['marca'] . '</option>';
+                        }
                         echo '</select>';
-                        echo '<label for="impres">Impressoras ocupadas</label>';
-
+                        echo '<label for="impresoc">Impressoras ocupadas</label>';
                         ?>
                 </div>
             </div>
-            <!---  Fim do form -->
 
             <!-- Botões -->
             <div class="input-field col s12">
@@ -225,16 +160,25 @@ $status = "";
                 <input type="button" value="Limpar" onclick="resetar()" class="btn red">&nbsp&nbsp
                 <a href="lista_pedidos.php" class="btn purple">Voltar</a>
             </div>
-
         </fieldset>
     </form>
+    <!---  Fim do form -->
+
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.1.3/axios.min.js" integrity="sha512-0qU9M9jfqPw6FKkPafM3gy2CBAvUWnYVOfNPDYKVuRTel1PrciTj+a9P3loJB+j0QmN2Y0JYQmkBBS8W+mbezg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="https://cdn.jsdelivr.net/npm/underscore@1.13.6/underscore-umd-min.js"></script>
-<script src="../libs/materialize/js/index.js"></script>
+<!-- Arquivos Jquery e Materialize -->
+<script type="text/javascript" src="../libs/materialize/js/jquery-3.5.1.min.js"></script>
+<script type="text/javascript" src="../libs/materialize/js/materialize.min.js"></script>
+<script type="text/javascript" src="../libs/materialize/js/funcoes.js"></script>
 
 <script>
+
+function teste(select) {
+  //  alert("REntrou no test");
+  $("#modal1").modal();
+  $("#modal1").show().focus;
+}
+
     function resetar() {
         var form = document.getElementById("formPedido");
         var nome = form.nome.value;
@@ -249,8 +193,27 @@ $status = "";
 
     function changeFunc(valor) {
         alert("The selected value is: " + valor);
+
         // You can add more code here to perform other actions
     }
 </script>
+<!-- Inicialização Jquery -->
+<script type="text/javascript">
+    $(document).ready(function() {
+        $(".dropdown-trigger").dropdown();
+        $('select').formSelect();
+        $('select').on('change', function() {
+            if ($(this).val() == "volvo") {
+                $('#cria-recinto').modal('show');
+            } else {
 
-<?php include_once('../includes/footer.inc.php');  ?>
+                $('#modal1').modal('show');
+            }
+
+
+        });
+    });
+</script>
+</body>
+
+</html>

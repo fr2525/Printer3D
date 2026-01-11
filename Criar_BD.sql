@@ -5,7 +5,7 @@ use DB_PRINTER3D;
 
 CREATE TABLE if not exists tb_clientes (
   id      int NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  cpf     int, 
+  cpf_cnpj     varchar(16) not null, 
   nome    varchar(50) NOT NULL,
   email   varchar(60) NOT NULL UNIQUE,
   celular varchar(15) NOT NULL, 
@@ -225,14 +225,14 @@ ALTER TABLE  tb_pedidos
 ALTER TABLE  tb_status 
   MODIFY  id_status  int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
- INSERT INTO  tb_clientes  ( id , cpf_cnpj, nome ,  usuario ,  email , celular ,  operador ) VALUES
- (1, '11111111111', 'Reinert', 'usuario','fabio@hotmail.com', '(11) 111111111', 1),
- (2, '22222222222', 'Reinert2', 'usuario2','fabio2@hotmail.com', '(11) 222222222', 1),
- (3, '33333333333', 'Reinert3', 'usuario3','fabio3@hotmail.com', '(11) 333333333', 1),
- (4, '44444444444', 'Reinert4', 'usuario4','fabio4@hotmail.com', '(11) 444444444', 1),
- (5, '55555555555', 'Reinert5', 'usuario5','fabio5@hotmail.com', '(11) 555555555', 1),
- (6, '66666666666', 'Reinert6', 'usuario6','fabio6@hotmail.com', '(11) 666666666', 1),
- (7, '77777777777', 'Reinert7', 'usuario7','fabio7@hotmail.com', '(11) 777777777', 1),
- (8, '88888888888', 'Reinert8', 'usuario8','fabio8@hotmail.com', '(11) 888888888', 1),
- (9, '99999999999', 'Reinert9', 'usuario9','fabio9@hotmail.com', '(11) 999999999', 1);
+ INSERT INTO  tb_clientes  ( id , cpf_cnpj, nome ,  email , celular ,  operador ) VALUES
+ (1, '11111111111', 'Reinert', 'fabio@hotmail.com', '(11) 111111111', 1),
+ (2, '22222222222', 'Reinert2','fabio2@hotmail.com', '(11) 222222222', 1),
+ (3, '33333333333', 'Reinert3','fabio3@hotmail.com', '(11) 333333333', 1),
+ (4, '44444444444', 'Reinert4','fabio4@hotmail.com', '(11) 444444444', 1),
+ (5, '55555555555', 'Reinert5','fabio5@hotmail.com', '(11) 555555555', 1),
+ (6, '66666666666', 'Reinert6','fabio6@hotmail.com', '(11) 666666666', 1),
+ (7, '77777777777', 'Reinert7','fabio7@hotmail.com', '(11) 777777777', 1),
+ (8, '88888888888', 'Reinert8','fabio8@hotmail.com', '(11) 888888888', 1),
+ (9, '99999999999', 'Reinert9','fabio9@hotmail.com', '(11) 999999999', 1);
 
